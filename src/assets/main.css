@@ -1,0 +1,7 @@
+@import url(./reset.css);
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;600&display=swap');
+
+body {
+  background-image: url(../../public/background.png);
+  font-family: 'Noto Sans JP', sans-serif;
+}
