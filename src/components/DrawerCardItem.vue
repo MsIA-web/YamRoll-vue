@@ -5,7 +5,8 @@ defineProps({
   id: Number,
   imgUrl: String,
   title: String,
-  price: Number
+  price: Number,
+  orderQuantity: Number
 })
 </script>
 
@@ -14,7 +15,10 @@ defineProps({
     <div id="item-card">
       <img id="item-img" :src="imgUrl" alt="item image" />
       <div id="item-info">
-        <b>{{ title }}</b>
+        <div id="title-counter">
+          <b>{{ title }}</b>
+          <span id="counter">x{{ orderQuantity }}</span>
+        </div>
         <div id="price-remove">
           <span id="price">{{ price }} ₽</span>
           <img
@@ -49,6 +53,14 @@ defineProps({
     flex-direction: column;
     justify-content: space-around;
     flex-grow: 1;
+    #title-counter {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      #counter {
+        padding-right: 30px;
+      }
+    }
     #price-remove {
       display: flex;
       align-items: center;

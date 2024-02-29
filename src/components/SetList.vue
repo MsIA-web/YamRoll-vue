@@ -5,7 +5,7 @@ defineProps({
   sets: Array
 })
 
-const emit = defineEmits(['setsAddToCart', 'setsRemoveFromCart'])
+const emit = defineEmits(['addToCart', 'removeFromCart'])
 </script>
 
 <template>
@@ -19,8 +19,8 @@ const emit = defineEmits(['setsAddToCart', 'setsRemoveFromCart'])
       :description="item.description"
       :price="item.price"
       :orderQuantity="item.orderQuantity"
-      :onClickAdd="() => emit('setsAddToCart', item)"
-      :onClickRemove="() => emit('setsRemoveFromCart', item)"
+      :onClickAdd="() => emit('addToCart', { category: 'sets', item })"
+      :onClickRemove="() => emit('removeFromCart', { category: 'sets', item })"
       :isAdded="item.isAdded"
     />
   </div>
