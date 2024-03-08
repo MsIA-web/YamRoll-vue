@@ -6,7 +6,9 @@ defineProps({
   imgUrl: String,
   title: String,
   price: Number,
-  orderQuantity: Number
+  orderQuantity: Number,
+  category: String,
+  onClickRemove: Function
 })
 </script>
 

@@ -21,26 +21,36 @@ const menuOpen = ref(false)
           <span class="menu-text">СЕТЫ</span>
         </li>
       </router-link>
-      <li>
-        <img class="icon" src="../../public/roll-icon.png" alt="rolls icon" />
-        <span class="menu-text">РОЛЛЫ</span>
-      </li>
-      <li>
-        <img class="icon" src="../../public/baked-rolls-icon.png" alt="baked rolls icon" />
-        <span class="menu-text">ТЁПЛЫЕ РОЛЛЫ</span>
-      </li>
-      <li>
-        <img class="icon" src="../../public/susi-icon.png" alt="susi icon" />
-        <span class="menu-text">СУШИ</span>
-      </li>
-      <li>
-        <img class="icon" src="../../public/wok-icon.png" alt="wok icon" />
-        <span class="menu-text">WOK</span>
-      </li>
-      <li>
-        <img class="icon" src="../../public/additionally-icon.png" alt="additionally icon" />
-        <span class="menu-text">ДОПОЛНИТЕЛЬНО</span>
-      </li>
+      <router-link :to="{ name: 'RollsPage' }">
+        <li>
+          <img class="icon" src="../../public/roll-icon.png" alt="rolls icon" />
+          <span class="menu-text">РОЛЛЫ</span>
+        </li>
+      </router-link>
+      <router-link :to="{ name: 'BackedRollsPage' }">
+        <li>
+          <img class="icon" src="../../public/baked-rolls-icon.png" alt="baked rolls icon" />
+          <span class="menu-text">ТЁПЛЫЕ РОЛЛЫ</span>
+        </li>
+      </router-link>
+      <router-link :to="{ name: 'SusiPage' }">
+        <li>
+          <img class="icon" src="../../public/susi-icon.png" alt="susi icon" />
+          <span class="menu-text">СУШИ</span>
+        </li>
+      </router-link>
+      <router-link :to="{ name: 'WokPage' }">
+        <li>
+          <img class="icon" src="../../public/wok-icon.png" alt="wok icon" />
+          <span class="menu-text">WOK</span>
+        </li>
+      </router-link>
+      <router-link :to="{ name: 'AdditionallyPage' }">
+        <li>
+          <img class="icon" src="../../public/additionally-icon.png" alt="additionally icon" />
+          <span class="menu-text">ДОПОЛНИТЕЛЬНО</span>
+        </li>
+      </router-link>
     </ul>
   </aside>
 </template>

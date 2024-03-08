@@ -10,6 +10,7 @@ const props = defineProps({
   price: Number,
   orderQuantity: Number,
   isAdded: Boolean,
+  category: String,
   onClickAdd: Function,
   onClickRemove: Function
 })
@@ -27,7 +28,7 @@ watch(
 <template>
   <div id="card">
     <div id="card-info">
-      <img id="item" :src="imgUrl" alt="Set" />
+      <img id="item" :src="imgUrl" alt="image item" />
       <b id="mass-quantity">{{ massQuantity }}</b>
       <b id="title">{{ title }}</b>
       <span id="description">{{ description }}</span>

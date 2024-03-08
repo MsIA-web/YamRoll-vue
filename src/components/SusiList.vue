@@ -2,7 +2,7 @@
 import SetCard from './SetCard.vue'
 
 defineProps({
-  sets: Array
+  susi: Array
 })
 
 const emit = defineEmits(['addToCart', 'removeFromCart'])
@@ -11,7 +11,7 @@ const emit = defineEmits(['addToCart', 'removeFromCart'])
 <template>
   <div id="content">
     <SetCard
-      v-for="item in sets"
+      v-for="item in susi"
       :key="item.id"
       :imgUrl="item.imgUrl"
       :massQuantity="item.massQuantity"

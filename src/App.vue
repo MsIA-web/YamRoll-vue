@@ -9,7 +9,12 @@ import AppDrawer from './components/AppDrawer.vue'
 
 const cart = ref([])
 const items = ref({
-  sets: []
+  sets: [],
+  rolls: [],
+  backedRolls: [],
+  susi: [],
+  wok: [],
+  additionally: []
 })
 const addToCart = ({ category, item }) => {
   const cartIndex = cart.value.findIndex((cartItem) => cartItem.id === item.id)
@@ -48,7 +53,7 @@ const removeFromCart = ({ category, item }) => {
     (categoryItem) => categoryItem.id === item.id
   )
   const updateItem = { ...items.value[category][categoryItemIndex] }
-  const updateCart = { ...items.value[category][cartIndex] }
+  const updateCart = { ...cart.value[cartIndex] }
   if (updateItem.orderQuantity > 1 && updateCart.orderQuantity > 1) {
     updateItem.orderQuantity--
     updateCart.orderQuantity--
@@ -57,7 +62,6 @@ const removeFromCart = ({ category, item }) => {
   } else {
     updateItem.isAdded = false
     updateItem.orderQuantity = 0
-
     cart.value.splice(cartIndex, 1)
     items.value[category].splice(categoryItemIndex, 1, updateItem)
   }
@@ -90,7 +94,22 @@ const cartButtonDisabled = computed(() => isCreatingOrder.value || cartIsEmpty.v
 const createOrder = async () => {
   try {
     isCreatingOrder.value = true
+
+    const getCartItems = () => {
+      return cart.value
+    }
+    console.log(getCartItems())
+    const orderItems = []
+    getCartItems().forEach((item) => {
+      orderItems.push({
+        id: item.id,
+        title: item.title,
+        orderQuantity: item.orderQuantity
+      })
+    })
+
     const { data } = await axios.post(`https://5b098b465695e1a4.mokky.dev/cart`, {
+      order: orderItems,
       totalPrice: totalPrice.value
     })
     cart.value = []

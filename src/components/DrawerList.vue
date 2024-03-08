@@ -15,7 +15,8 @@ console.log('cart in drawerList', cart.value)
       :title="item.title"
       :order-quantity="item.orderQuantity"
       :price="item.price"
-      @on-click-remove="() => removeFromCart({ category: 'sets', item })"
+      :category="item.category"
+      @on-click-remove="() => removeFromCart({ category: item.category, item })"
     />
   </div>
 </template>
