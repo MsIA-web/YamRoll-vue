@@ -15,8 +15,8 @@ const formData = {
   id: '',
   phone: '',
   address: '',
-  intercom: '',
-  apartment: ''
+  apartment: '',
+  intercom: ''
 }
 
 const submitForm = async () => {

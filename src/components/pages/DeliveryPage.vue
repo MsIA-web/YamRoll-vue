@@ -7,21 +7,21 @@
       <div id="info">
         <div id="region">
           <h3>Регион доставки</h3>
-          <p>Мы осуществляем доставку роллов по городу XYZ.</p>
+          <p class="text">Мы осуществляем доставку роллов по городу XYZ.</p>
         </div>
         <div id="price">
           <h3>Стоимость доставки</h3>
-          <p>Доставка роллов осуществляется бесплатно по всему городу.</p>
+          <p class="text">Доставка роллов осуществляется бесплатно по всему городу.</p>
         </div>
         <div id="time">
           <h3>Время доставки</h3>
-          <p>
+          <p class="text">
             Оперативная доставка роллов осуществляется в течение 1 часа с момента оформления заказа.
           </p>
         </div>
         <div id="payment">
           <h3>Оплата</h3>
-          <p>Мы принимаем оплату:</p>
+          <p class="text">Мы принимаем оплату:</p>
           <ul>
             <li>Наличными курьеру при получении заказа</li>
             <li>Банковской картой онлайн на сайте при оформлении заказа</li>
@@ -29,7 +29,7 @@
         </div>
         <div id="contacts">
           <h3>Контакты</h3>
-          <p>
+          <p class="text">
             Если у вас возникли вопросы или требуется дополнительная информация, вы можете связаться
             с нами:
           </p>
@@ -48,10 +48,38 @@
 #delivery {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 15px;
+  padding: 0 10px;
 }
 #delivery-header {
+  font-size: 20px;
+  font-weight: 900;
+}
+#info-slogan {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+#info {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+#slogan {
+  margin: auto;
+}
+.text {
+  padding-top: 10px;
+}
+h3 {
   font-size: 18px;
-  font-weight: 600;
+}
+
+ul {
+  padding-left: 30px;
+}
+ul li {
+  padding-top: 10px;
+  list-style: disc;
 }
 </style>
