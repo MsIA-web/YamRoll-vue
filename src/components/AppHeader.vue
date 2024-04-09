@@ -1,22 +1,34 @@
 <script setup>
+import { inject } from 'vue'
+const cartVisible = inject('cartVisible')
 const emit = defineEmits(['openDrawer'])
 </script>
 
 <template>
   <div class="header">
     <div class="logo-phone">
-      <router-link :to="{name: 'Home'}">
+      <router-link :to="{ name: 'Home' }">
         <img src="../../public/logo-horizontal.png" alt="logotype" />
       </router-link>
       <a href="tel:+79998887766">+7 (999) 888-77-66</a>
     </div>
     <div class="action-delivery">
       <span id="action">АКЦИИ</span>
-      <span id="delivery">ДОСТАВКА</span>
+      <router-link :to="{ name: 'DeliveryPage' }">
+        <span id="delivery">ДОСТАВКА</span>
+      </router-link>
     </div>
     <div class="account-cart">
-      <img id="account" src="../../public/account.svg" alt="account" />
-      <img @click="emit('openDrawer')" id="cart" src="../../public/cart.svg" alt="cart" />
+      <router-link :to="{ name: 'AuthorizationPage' }">
+        <img id="account" src="../../public/account.svg" alt="account" />
+      </router-link>
+      <img
+        v-if="cartVisible"
+        @click="emit('openDrawer')"
+        id="cart"
+        src="../../public/cart.svg"
+        alt="cart"
+      />
     </div>
   </div>
 </template>

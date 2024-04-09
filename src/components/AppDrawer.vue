@@ -2,12 +2,12 @@
 import DrawerHeadVue from './DrawerHead.vue'
 import DrawerList from './DrawerList.vue'
 
+const emit = defineEmits(['closeDrawer'])
+
 defineProps({
   totalPrice: Number,
   buttonDisabled: Boolean
 })
-
-const emit = defineEmits(['createOrder'])
 </script>
 
 <template>
@@ -22,9 +22,11 @@ const emit = defineEmits(['createOrder'])
           <div id="dashed-border"></div>
           <span id="total-price">{{ totalPrice }} ₽</span>
         </div>
-        <button id="buy" @click="() => emit('createOrder')" :disabled="buttonDisabled">
-          ОФОРМИТЬ ЗАКАЗ
-        </button>
+        <router-link :to="{ name: 'OrderPage' }">
+          <button id="buy" :disabled="buttonDisabled" @click="() => emit('closeDrawer')">
+            ПЕРЕЙТИ К ОФОРМЛЕНИЮ ЗАКАЗА
+          </button>
+        </router-link>
       </div>
     </div>
   </div>
@@ -33,7 +35,7 @@ const emit = defineEmits(['createOrder'])
 <style lang="scss">
 #cart-overlay {
   width: 100%;
-  height: calc(100% + 50px);
+  height: calc(100% + 80px);
   position: absolute;
   z-index: 2;
   display: flex;
@@ -43,6 +45,7 @@ const emit = defineEmits(['createOrder'])
   width: 100%;
   height: 100%;
   background-color: #000000a8;
+  border-top-left-radius: 0.75rem;
 }
 #cart-content {
   height: 100%;
@@ -50,6 +53,7 @@ const emit = defineEmits(['createOrder'])
   background-color: rgb(255, 255, 255);
   display: flex;
   flex-direction: column;
+  border-top-right-radius: 0.75rem;
 }
 #cart-bottom {
   padding: 10px;
@@ -72,7 +76,6 @@ const emit = defineEmits(['createOrder'])
     font-size: 16px;
     color: #fff;
     background-color: #ee575e;
-    width: 180px;
     padding: 10px;
     border-radius: 1rem;
     align-self: center;

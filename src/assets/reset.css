@@ -136,3 +136,22 @@ button {
 *::after {
   box-sizing: border-box;
 }
+input[type='text'],
+input[type='number'] {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  box-sizing: border-box;
+  padding: 0.5rem;
+  border: 2px solid #ccc;
+  border-radius: 0.75rem;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+}
