@@ -13,7 +13,9 @@ const emit = defineEmits(['openDrawer'])
       <a href="tel:+79998887766">+7 (999) 888-77-66</a>
     </div>
     <div class="action-delivery">
-      <span id="action">АКЦИИ</span>
+      <router-link :to="{ name: 'PromotionsPage' }">
+        <span id="action">АКЦИИ</span>
+      </router-link>
       <router-link :to="{ name: 'DeliveryPage' }">
         <span id="delivery">ДОСТАВКА</span>
       </router-link>

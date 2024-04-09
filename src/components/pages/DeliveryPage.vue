@@ -73,6 +73,7 @@
 }
 h3 {
   font-size: 18px;
+  font-weight: 600;
 }
 
 ul {
@@ -81,5 +82,6 @@ ul {
 ul li {
   padding-top: 10px;
   list-style: disc;
+  line-height: 1.5;
 }
 </style>

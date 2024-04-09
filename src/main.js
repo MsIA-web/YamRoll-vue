@@ -13,6 +13,7 @@ import AdditionallyPage from './components/pages/AdditionallyPage.vue'
 import AuthorizationPage from './components/pages/AuthorizationPage.vue'
 import OrderPage from './components/pages/OrderPage.vue'
 import DeliveryPage from './components/pages/DeliveryPage.vue'
+import PromotionsPage from './components/pages/PromotionsPage.vue'
 
 const app = createApp(App)
 
@@ -70,6 +71,11 @@ const routes = [
     path: '/Delivery',
     name: 'DeliveryPage',
     component: DeliveryPage
+  },
+  {
+    path: '/Promotions',
+    name: 'PromotionsPage',
+    component: PromotionsPage
   }
 ]
 
