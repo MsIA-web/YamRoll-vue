@@ -17,13 +17,14 @@ defineProps({
     <div id="item-card">
       <img id="item-img" :src="imgUrl" alt="item image" />
       <div id="item-info">
-        <div id="title-counter">
+        <div id="title-counter" class="size-16">
           <b>{{ title }}</b>
-          <span id="counter">x{{ orderQuantity }}</span>
+          <span id="counter" class="size-16">x{{ orderQuantity }}</span>
         </div>
         <div id="price-remove">
-          <span id="price">{{ price }} ₽</span>
+          <span id="price" class="size-16">{{ price }} ₽</span>
           <img
+            id="remove-button"
             @click="emit('onClickRemove')"
             src="../../public/remove-item-cart.svg"
             alt="Remove item"
@@ -35,6 +36,8 @@ defineProps({
 </template>
 
 <style lang="scss" scoped>
+@import '@/assets/mixin.scss';
+
 #item {
   padding: 10px;
   display: flex;
@@ -45,32 +48,38 @@ defineProps({
   border: 1px solid #00000040;
   border-radius: 0.75rem;
   gap: 20px;
-  #item-img {
-    width: 80px;
-    height: 80px;
-    border-radius: 0.75rem;
-  }
-  #item-info {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    flex-grow: 1;
-    #title-counter {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      #counter {
-        padding-right: 30px;
-      }
-    }
-    #price-remove {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      img {
-        padding-right: 20px;
-      }
-    }
-  }
+}
+#item-img {
+  max-width: 80px;
+  max-height: 80px;
+  min-width: 60px;
+  min-height: 60px;
+  border-radius: 0.75rem;
+}
+#item-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  flex-grow: 1;
+  gap: 10px;
+}
+#title-counter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+#counter {
+  padding-right: 30px;
+}
+#price-remove {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+#remove-button {
+  padding-right: 20px;
+  @include buttonAnimation();
 }
 </style>

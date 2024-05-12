@@ -16,11 +16,16 @@ const changeUserStatus = () => {
     <div class="sign-in" v-if="userStatus">
       <form method="POST">
         <div class="form-field">
-          <input type="number" name="phone" placeholder="Введите номер телефона" class="phone" />
-          <button type="submit" class="submit-button">Вход</button>
+          <input
+            type="number"
+            name="phone"
+            placeholder="Введите номер телефона"
+            class="phone size-14"
+          />
+          <button type="submit" class="submit-button size-16">Вход</button>
         </div>
       </form>
-      <p id="to-registration" class="half-button" @click="changeUserStatus">
+      <p id="to-registration" class="half-button size-16" @click="changeUserStatus">
         Вы ещё не зарегистрированы ?
       </p>
     </div>
@@ -36,7 +41,9 @@ const changeUserStatus = () => {
   </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
+@import '@/assets/mixin.scss';
+
 .authorization {
   width: 30%;
   height: 400px;
@@ -50,15 +57,11 @@ const changeUserStatus = () => {
 .sign-in,
 .registration {
   height: 380px;
-  display: flex;
-  flex-direction: column;
-  padding: 10px;
+  @include flexColumn();
   justify-content: center;
 }
 .form-field {
-  display: flex;
-  flex-direction: column;
-  gap: 40px;
+  @include flexColumn();
 }
 .phone:focus {
   border: solid 2px rgb(0, 0, 0);
@@ -73,16 +76,28 @@ const changeUserStatus = () => {
   font-size: 16px;
   width: 60%;
   margin: auto;
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease;
+  &:hover {
+    background-color: #ee575e;
+    border-color: #ee575e;
+    color: white;
+  }
 }
 .half-button {
   margin-top: 20px;
   padding: 10px 0px;
   text-align: center;
   cursor: pointer;
-  transition: filter 0.3s ease;
   border-radius: 0.75rem;
-}
-.half-button:hover {
-  background-color: #d5d3d3;
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease;
+  &:hover {
+    background-color: #ee575e;
+    border-color: #ee575e;
+    color: white;
+  }
 }
 </style>

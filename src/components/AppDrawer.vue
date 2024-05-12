@@ -12,18 +12,23 @@ defineProps({
 
 <template>
   <div id="cart-overlay">
-    <div id="shadow"></div>
+    <div id="shadow" @click="() => emit('closeDrawer')"></div>
     <div id="cart-content">
       <DrawerHeadVue />
-      <DrawerList />
+      <DrawerList v-auto-animate />
       <div id="cart-bottom">
         <div id="price">
-          <span id="price-text">Итого:</span>
+          <span id="price-text" class="size-18">Итого:</span>
           <div id="dashed-border"></div>
-          <span id="total-price">{{ totalPrice }} ₽</span>
+          <span id="total-price" class="size-18">{{ totalPrice }} ₽</span>
         </div>
         <router-link :to="{ name: 'OrderPage' }">
-          <button id="buy" :disabled="buttonDisabled" @click="() => emit('closeDrawer')">
+          <button
+            id="buy"
+            class="size-16"
+            :disabled="buttonDisabled"
+            @click="() => emit('closeDrawer')"
+          >
             ПЕРЕЙТИ К ОФОРМЛЕНИЮ ЗАКАЗА
           </button>
         </router-link>
@@ -32,7 +37,9 @@ defineProps({
   </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
+@import '@/assets/mixin.scss';
+
 #cart-overlay {
   width: 100%;
   height: calc(100% + 80px);
@@ -48,40 +55,42 @@ defineProps({
   border-top-left-radius: 0.75rem;
 }
 #cart-content {
+  @include flexColumn();
   height: 100%;
   width: 30%;
-  background-color: rgb(255, 255, 255);
-  display: flex;
-  flex-direction: column;
   border-top-right-radius: 0.75rem;
+  background-color: rgb(255, 255, 255);
 }
 #cart-bottom {
-  padding: 10px;
+  @include flexColumn();
+}
+#price {
   display: flex;
-  flex-direction: column;
-  gap: 25px;
-  #price {
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
-    white-space: nowrap;
+  justify-content: space-between;
+  gap: 10px;
+  white-space: nowrap;
+}
+#dashed-border {
+  border-bottom: 1px dashed rgba(0, 0, 0, 0.4);
+  width: 100%;
+}
+#buy {
+  font-family: 'Noto Sans JP', sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  color: #fff;
+  background-color: #ee575e;
+  padding: 10px;
+  border-radius: 1rem;
+  align-self: center;
+  transition: filter 0.3s ease;
+  &:hover {
+    filter: brightness(120%);
+    cursor: pointer;
   }
-  #dashed-border {
-    border-bottom: 1px dashed rgba(0, 0, 0, 0.4);
-    width: 100%;
-  }
-  #buy {
-    font-family: 'Noto Sans JP', sans-serif;
-    font-weight: 600;
-    font-size: 16px;
-    color: #fff;
-    background-color: #ee575e;
-    padding: 10px;
-    border-radius: 1rem;
-    align-self: center;
-  }
-  #buy:disabled {
+  &:disabled {
     opacity: 40%;
+    cursor: not-allowed;
   }
 }
 </style>

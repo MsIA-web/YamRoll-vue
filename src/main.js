@@ -14,6 +14,11 @@ import AuthorizationPage from './components/pages/AuthorizationPage.vue'
 import OrderPage from './components/pages/OrderPage.vue'
 import DeliveryPage from './components/pages/DeliveryPage.vue'
 import PromotionsPage from './components/pages/PromotionsPage.vue'
+import AboutUsPage from './components/pages/AboutUsPage.vue'
+import ContactsPage from './components/pages/ContactsPage.vue'
+import ReportPage from './components/pages/ReportPage.vue'
+import PrivacyPolicyPage from './components/pages/PrivacyPolicyPage.vue'
+import UserAgreementPage from './components/pages/UserAgreementPage.vue'
 
 const app = createApp(App)
 
@@ -76,13 +81,47 @@ const routes = [
     path: '/Promotions',
     name: 'PromotionsPage',
     component: PromotionsPage
+  },
+  {
+    path: '/AboutUs',
+    name: 'AboutUsPage',
+    component: AboutUsPage
+  },
+  {
+    path: '/Contacts',
+    name: 'ContactsPage',
+    component: ContactsPage
+  },
+  {
+    path: '/Report',
+    name: 'ReportPage',
+    component: ReportPage
+  },
+  {
+    path: '/PrivacyPolicy',
+    name: 'PrivacyPolicyPage',
+    component: PrivacyPolicyPage
+  },
+  {
+    path: '/UserAgreement',
+    name: 'UserAgreementPage',
+    component: UserAgreementPage
   }
 ]
 
 const router = createRouter({ history: createWebHistory(), routes })
 
 router.beforeEach((to, from, next) => {
-  if (to.name === 'AuthorizationPage' || to.name === 'OrderPage' || to.name === 'DeliveryPage') {
+  if (
+    to.name === 'AuthorizationPage' ||
+    to.name === 'OrderPage' ||
+    to.name === 'DeliveryPage' ||
+    to.name === 'AboutUsPage' ||
+    to.name === 'ContactsPage' ||
+    to.name === 'ReportPage' ||
+    to.name === 'PrivacyPolicyPage' ||
+    to.name === 'UserAgreementPage'
+  ) {
     isMenuOpen.value = false
   } else {
     isMenuOpen.value = true

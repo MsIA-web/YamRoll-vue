@@ -29,53 +29,71 @@ watch(
   <div id="card">
     <div id="card-info">
       <img id="item" :src="imgUrl" alt="image item" />
-      <b id="mass-quantity">{{ massQuantity }}</b>
-      <b id="title">{{ title }}</b>
-      <span id="description">{{ description }}</span>
+      <b id="mass-quantity" class="size-14">{{ massQuantity }}</b>
+      <b id="title" class="size-20">{{ title }}</b>
+      <span id="description" class="size-16">{{ description }}</span>
     </div>
     <div id="card-buy">
       <b id="price">{{ price }} ₽</b>
-      <img @click="onClickAdd" v-if="!isAdded" src="/buy-button.svg" alt="buy button" />
+      <img
+        class="cart-buttons"
+        @click="onClickAdd"
+        v-if="!isAdded"
+        src="/buy-button.svg"
+        alt="buy button"
+      />
       <div id="change-order" v-if="isAdded">
-        <img @click="onClickRemove" src="/minus-order.svg" alt="reduce order" />
+        <img
+          class="cart-buttons-alt"
+          @click="onClickRemove"
+          src="/minus-order.svg"
+          alt="reduce order"
+        />
         <span id="order">{{ reactiveOrderQuantity }}</span>
-        <img @click="onClickAdd" src="/plus-order.svg" alt="increase order" />
+        <img
+          class="cart-buttons-alt"
+          @click="onClickAdd"
+          src="/plus-order.svg"
+          alt="increase order"
+        />
       </div>
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
+@import '@/assets/mixin.scss';
+
 #card {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  b {
-    font-weight: 600;
-  }
+}
+#title {
+  font-weight: 600;
 }
 #card-info {
   padding: 5px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  #item {
-    width: 290px;
-    height: 190px;
-  }
-  #mass-quantity {
-    margin-top: 10px;
-    font-size: 14px;
-  }
-  #title {
-    margin-top: 5px;
-    font-size: 20px;
-  }
-  #description {
-    margin-top: 5px;
-    text-align: left;
-    line-height: 1.5;
-  }
+}
+#item {
+  width: 100%;
+  height: 100%;
+}
+#mass-quantity {
+  margin-top: 10px;
+  font-size: 14px;
+}
+#title {
+  margin-top: 5px;
+  font-size: 20px;
+}
+#description {
+  margin-top: 5px;
+  text-align: left;
+  line-height: 1.5;
 }
 #card-buy {
   padding: 5px;
@@ -83,21 +101,23 @@ watch(
   justify-content: space-between;
   align-items: center;
   margin-top: 20px;
-  img {
-    cursor: pointer;
-  }
+}
+.cart-buttons,
+.cart-buttons-alt {
+  cursor: pointer;
+  @include buttonAnimation();
 }
 #change-order {
   display: flex;
   justify-content: space-between;
   max-width: 120px;
-  #order {
-    width: 30px;
-    padding: 0 10px;
-    font-weight: 600;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+}
+#order {
+  width: 30px;
+  padding: 0 10px;
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>

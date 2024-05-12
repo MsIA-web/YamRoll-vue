@@ -1,0 +1,68 @@
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+@mixin flexColumn {
+  display: flex;
+  flex-direction: column;
+  padding: 0 10px;
+  gap: 30px;
+}
+
+@mixin gridMesh($ncolumns) {
+  display: grid;
+  grid-template-columns: repeat($ncolumns, minmax(auto, 300px));
+  gap: 1.25rem;
+  justify-content: space-evenly;
+}
+
+@mixin header($font-size) {
+  font-size: $font-size;
+  font-weight: 600;
+}
+
+@mixin ulChanged {
+  padding-left: 40px;
+  li {
+    padding-top: 10px;
+    list-style: disc;
+    line-height: 1.5;
+  }
+  li:not(:first-child) {
+    padding-top: 10px;
+  }
+}
+
+@mixin paragraph {
+  text-indent: 10px;
+  padding-left: 10px;
+  line-height: 1.5;
+}
+
+@mixin hoverAnimation {
+  display: inline-block;
+  transition: transform 0.3s ease;
+  cursor: pointer;
+  &:hover {
+    transform: scale(1.1);
+    color: #ee575e;
+    text-decoration: underline;
+  }
+  &:active {
+    transform: scale(1);
+    transition: transform 0.1s ease;
+  }
+}
+
+@mixin buttonAnimation {
+  transition: filter 0.3s ease;
+  transform: scale(1);
+  cursor: pointer;
+  &:hover {
+    filter: brightness(120%);
+  }
+  &:active {
+    transform: scale(1.1);
+  }
+}

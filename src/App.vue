@@ -8,8 +8,10 @@ import AppFooter from './components/AppFooter.vue'
 import AppDrawer from './components/AppDrawer.vue'
 
 const isMenuOpen = inject('isMenuOpen')
+const menuOpen = ref(false)
 
 const cart = ref([])
+
 const items = ref({
   sets: [],
   rolls: [],
@@ -18,6 +20,8 @@ const items = ref({
   wok: [],
   additionally: []
 })
+const numberOfItemsInTheCart = ref(0)
+
 const addToCart = ({ category, item }) => {
   const cartIndex = cart.value.findIndex((cartItem) => cartItem.id === item.id)
   const categoryItemIndex = items.value[category].findIndex(
@@ -44,7 +48,10 @@ const addToCart = ({ category, item }) => {
     }
     items.value[category].splice(categoryItemIndex, 1, updateItem)
   }
+  numberOfItemsInTheCart.value++
+  console.log(numberOfItemsInTheCart.value)
 
+  localStorage.setItem('counter in cart', JSON.stringify(numberOfItemsInTheCart.value))
   localStorage.setItem(category, JSON.stringify(items.value[category]))
   localStorage.setItem('cart', JSON.stringify(cart.value))
 }
@@ -67,6 +74,13 @@ const removeFromCart = ({ category, item }) => {
     cart.value.splice(cartIndex, 1)
     items.value[category].splice(categoryItemIndex, 1, updateItem)
   }
+  if (numberOfItemsInTheCart.value > 0) {
+    numberOfItemsInTheCart.value--
+  } else {
+    numberOfItemsInTheCart.value = 0
+  }
+  console.log(numberOfItemsInTheCart.value)
+  localStorage.setItem('counter in cart', JSON.stringify(numberOfItemsInTheCart.value))
   localStorage.setItem(category, JSON.stringify(items.value[category]))
   localStorage.setItem('cart', JSON.stringify(cart.value))
 }
@@ -153,6 +167,7 @@ const fetchCart = async () => {
 onMounted(async () => {
   try {
     await fetchCart()
+    numberOfItemsInTheCart.value = JSON.parse(localStorage.getItem('counter in cart')) || 0
   } catch (err) {
     console.log('Error with rendering', err)
   }
@@ -170,44 +185,72 @@ provide('items', {
   updateItemsList
 })
 provide('createOrder', createOrder)
+provide('menuOpen', menuOpen)
 </script>
 <template>
-  <div class="wrapper">
-    <div id="page-wrapper">
-      <AppDrawer
-        :cart="cart"
-        v-if="drawerOpen"
-        :total-price="totalPrice"
-        @closeDrawer="closeDrawer"
-        :button-disabled="cartButtonDisabled"
-      />
-      <header ref="header">
-        <AppHeader :total-price="totalPrice" @open-drawer="openDrawer" />
-      </header>
-      <main ref="main">
-        <AsideMenuBar v-if="isMenuOpen" />
-        <router-view />
-      </main>
+  <div class="wrapper" @click="menuOpen = false">
+    <div id="left-sidel" class="aside"></div>
+    <div id="right-side" class="aside"></div>
+    <div id="midle-side">
+      <div id="midle">
+        <AppDrawer
+          :cart="cart"
+          v-if="drawerOpen"
+          :total-price="totalPrice"
+          @closeDrawer="closeDrawer"
+          :button-disabled="cartButtonDisabled"
+        />
+        <header ref="header">
+          <AppHeader
+            :total-price="totalPrice"
+            @open-drawer="openDrawer"
+            :number-of-items-in-the-cart="numberOfItemsInTheCart"
+          />
+        </header>
+        <main ref="main">
+          <AsideMenuBar v-if="isMenuOpen" @click.stop />
+          <router-view />
+        </main>
+      </div>
+      <footer>
+        <AppFooter />
+      </footer>
     </div>
-    <footer>
-      <AppFooter />
-    </footer>
   </div>
 </template>
-<style>
+<style lang="scss" scoped>
+@import '@/assets/mixin.scss';
+
 .wrapper {
   background-color: #fff;
-  width: 90%;
-  height: 95%;
+  width: 100%;
+  min-height: 100vh;
   font-size: 16px;
   display: flex;
-  flex-direction: column;
-  margin: auto;
-  margin-top: 5%;
+  flex-direction: row;
+  justify-content: space-between;
   border-radius: 0.75rem;
   position: relative;
 }
-#page-wrapper {
+#midle-side {
+  position: relative;
+  order: 1;
+  flex-grow: 8;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-basis: 90%;
+}
+.aside {
+  flex-grow: 1;
+  width: 5%;
+  height: auto;
+  background-image: url(../../public/background.png);
+}
+#right-side {
+  order: 2;
+}
+#midle {
   position: relative;
 }
 main {

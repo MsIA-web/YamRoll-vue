@@ -1,11 +1,12 @@
 <script setup>
-import { ref, inject } from 'vue'
+import { ref, inject, onMounted } from 'vue'
 import axios from 'axios'
 
 const sendOrder = inject('createOrder')
-
 const updateInform = async () => {
-  formData.phone = document.querySelector('#phone').value
+  formData.phone = decodeURIComponent(
+    encodeURIComponent(document.getElementById('phone-input').value)
+  )
   formData.address = document.querySelector('#suggest').value
   formData.intercom = document.querySelector('#apartment').value
   formData.apartment = document.querySelector('#intercom').value
@@ -19,14 +20,35 @@ const formData = {
   intercom: ''
 }
 
-const submitForm = async () => {
+const numberInputValid = ref(true)
+
+const phoneInputValid = (input) => {
+  const regEx = /^((\+7|7|8)[0-9]{10})$/
+
+  return regEx.test(input)
+}
+const submitForm = async (event) => {
+  event.preventDefault()
   try {
-    await sendOrder()
     await updateInform()
-    axios.post('https://5b098b465695e1a4.mokky.dev/address', formData).then(() => {
-      window.location.href = '/'
-      console.log('Данные успешно отправлены')
-    })
+    const form = document.getElementById('form-post')
+    console.log(formData.phone)
+    if (form.checkValidity() && phoneInputValid(formData.phone)) {
+      await sendOrder()
+      axios.post('https://5b098b465695e1a4.mokky.dev/address', formData).then(() => {
+        window.location.href = '/'
+      })
+    } else {
+      console.log('Форма не валидна')
+      numberInputValid.value = false
+      form.addEventListener('input', function () {
+        updateInform()
+        if (phoneInputValid(formData.phone)) {
+          numberInputValid.value = true
+          form.removeEventListener('input', phoneInputValid)
+        }
+      })
+    }
   } catch {
     ;(error) => {
       console.error('Ошибка при отправке:', error)
@@ -51,7 +73,6 @@ const getAddress = async (coordinates) => {
     const firstGeoObject = response.geoObjects.get(0)
     if (firstGeoObject) {
       address.value = firstGeoObject.getAddressLine()
-      console.log('address', address.value)
     } else {
       address.value = 'Адрес не найден'
     }
@@ -95,7 +116,6 @@ const manualDraggMarker = () => {
     const changeCoord = response.map((response) => parseFloat(response.toFixed(6)))
     const data = await reverseGeocode(changeCoord)
     suggestRef.value = data
-    console.log('suggest', suggestRef.value)
   })
 }
 
@@ -104,9 +124,7 @@ const search = async () => {
   const request = suggestRef.value
   // eslint-disable-next-line no-undef
   const response = await ymaps.geocode(request)
-  console.log('search geocode', response)
   coordinates.value = response.geoObjects.get(0).geometry.getCoordinates()
-  console.log('first coords', coordinates.value, typeof coordinates.value)
   getAddress(coordinates)
   addMark()
   manualDraggMarker()
@@ -118,46 +136,60 @@ function init() {
     center: [55.76, 37.64],
     zoom: 9
   })
-  myMap.controls.remove('geolocationControl') // удаляем геолокацию
+  myMap.controls.remove('geolocationControl')
   myMap.controls.remove('searchControl')
-  myMap.controls.remove('trafficControl') // удаляем контроль трафика
-  myMap.controls.remove('typeSelector') // удаляем тип
-  myMap.controls.remove('fullscreenControl') // удаляем кнопку перехода в полноэкранный режим
-  myMap.controls.remove('rulerControl') // удаляем контрол правил
-  myMap.controls.remove('zoomControl') // удаляем контрол зуммирования
+  myMap.controls.remove('trafficControl')
+  myMap.controls.remove('typeSelector')
+  myMap.controls.remove('fullscreenControl')
+  myMap.controls.remove('rulerControl')
+  myMap.controls.remove('zoomControl')
 
   // eslint-disable-next-line no-undef
   let suggestView1 = new ymaps.SuggestView('suggest')
   suggestView1.events.add('select', search)
+  myMap.container.fitToViewport()
 }
 
 // eslint-disable-next-line no-undef
 ymaps.ready(init)
 
-document.addEventListener('DOMContentLoaded', function () {
-  const sourceElement = document.getElementById('input-height')
-  const targetElement = document.getElementById('map')
+const form = ref(null)
+const submitButton = ref(null)
 
-  if (sourceElement && targetElement) {
-    const height = sourceElement.clientHeight
-    targetElement.style.height = height + 'px'
-  }
+const enableSubmitButtonValidForm = () => {
+  console.log('start')
+  form.value.addEventListener('input', function () {
+    if (this.checkValidity()) {
+      submitButton.value.removeAttribute('disabled')
+    } else {
+      submitButton.value.setAttribute('disabled', 'disabled')
+    }
+  })
+}
+
+onMounted(() => {
+  form.value = document.getElementById('form-post')
+  submitButton.value = document.getElementById('buy')
+  enableSubmitButtonValidForm()
 })
 </script>
 
 <template>
   <div id="confirm-order">
     <div id="input-map">
-      <form method="POST">
+      <form id="form-post" method="POST">
         <div class="form-field" id="input-height">
           <input
             type="number"
+            required
             name="phone"
             placeholder="Введите номер телефона"
             class="phone disabled-scroll"
-            id="phone"
-            required
+            id="phone-input"
           />
+          <div v-if="!numberInputValid" id="number-input-valid" class="size-14">
+            Номер телефона введён некорректно
+          </div>
           <input
             v-model="suggestRef"
             type="text"
@@ -168,6 +200,7 @@ document.addEventListener('DOMContentLoaded', function () {
             required
           />
           <input
+            required
             type="number"
             inputmode="numeric"
             name="apartment"
@@ -187,32 +220,44 @@ document.addEventListener('DOMContentLoaded', function () {
       </form>
       <div id="map"></div>
     </div>
-    <button type="submit" @click="submitForm" id="buy">ОФОРМИТЬ ЗАКАЗ</button>
+    <button type="submit" disabled @click="submitForm" id="buy">ОФОРМИТЬ ЗАКАЗ</button>
   </div>
 </template>
 
 <style lang="scss" scoped>
+@import '@/assets/mixin.scss';
+
 #confirm-order {
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
+  @include flexColumn();
 }
 #input-map {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
+  gap: 30px;
 }
-
+#form-post {
+  flex-grow: 1;
+  max-width: 600px;
+  width: 100%;
+}
 .form-field {
-  display: flex;
-  flex-direction: column;
+  @include flexColumn();
 }
 
 input {
-  min-width: 600px;
+  max-width: 600px;
+  width: 100%;
+}
+#number-input-valid {
+  color: red;
 }
 #map {
-  width: 400px;
+  margin: auto;
+  flex-grow: 1;
+  min-width: 250px;
+  height: 240px;
+  width: 100%;
   border-radius: 0.75rem;
   overflow: hidden;
 }
@@ -227,10 +272,16 @@ input {
   border-radius: 0.75rem;
   color: white;
   transition: filter 0.3s ease;
+  &:hover {
+    filter: brightness(120%);
+    cursor: pointer;
+  }
+  &:disabled {
+    opacity: 40%;
+    cursor: not-allowed;
+  }
 }
-#buy:hover {
-  filter: brightness(120%);
-}
+
 .disabled-scroll {
   -moz-appearance: textfield;
 }

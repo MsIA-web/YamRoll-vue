@@ -28,10 +28,9 @@ const emit = defineEmits(['addToCart', 'removeFromCart'])
 </template>
 
 <style lang="scss" scoped>
+@import '@/assets/mixin.scss';
+
 #content {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(290px, 300px));
-  gap: 1.25rem;
-  justify-content: space-evenly;
+  @include gridMesh(3)
 }
 </style>

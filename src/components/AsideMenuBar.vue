@@ -1,132 +1,183 @@
 <script setup>
-import { ref } from 'vue'
+import { inject } from 'vue'
 
-const menuOpen = ref(false)
+const menuOpen = inject('menuOpen')
 </script>
 
 <template>
   <aside>
-    <button id="aside-menu-open" class="icon-button" @click="menuOpen = !menuOpen">
-      <div id="line-button">
-        <img src="../../public/line-menu.svg" alt="line" />
-        <img src="../../public/line-menu.svg" alt="line" />
-        <img src="../../public/line-menu.svg" alt="line" />
+    <button
+      id="aside-menu-open"
+      :class="{ 'no-border-radius': menuOpen }"
+      @click="menuOpen = !menuOpen"
+    >
+      <div id="button-container">
+        <div id="line-button">
+          <img src="../../public/line-menu.svg" alt="line" />
+          <img src="../../public/line-menu.svg" alt="line" />
+          <img src="../../public/line-menu.svg" alt="line" />
+        </div>
+        <span id="button-name">МЕНЮ</span>
       </div>
-      <span>МЕНЮ</span>
     </button>
-    <ul v-if="menuOpen">
-      <router-link :to="{ name: 'SetPage' }">
-        <li>
-          <img class="icon" src="../../public/sets-icon.png" alt="sets icon" />
-          <span class="menu-text">СЕТЫ</span>
-        </li>
-      </router-link>
-      <router-link :to="{ name: 'RollsPage' }">
-        <li>
-          <img class="icon" src="../../public/roll-icon.png" alt="rolls icon" />
-          <span class="menu-text">РОЛЛЫ</span>
-        </li>
-      </router-link>
-      <router-link :to="{ name: 'BackedRollsPage' }">
-        <li>
-          <img class="icon" src="../../public/baked-rolls-icon.png" alt="baked rolls icon" />
-          <span class="menu-text">ТЁПЛЫЕ РОЛЛЫ</span>
-        </li>
-      </router-link>
-      <router-link :to="{ name: 'SusiPage' }">
-        <li>
-          <img class="icon" src="../../public/susi-icon.png" alt="susi icon" />
-          <span class="menu-text">СУШИ</span>
-        </li>
-      </router-link>
-      <router-link :to="{ name: 'WokPage' }">
-        <li>
-          <img class="icon" src="../../public/wok-icon.png" alt="wok icon" />
-          <span class="menu-text">WOK</span>
-        </li>
-      </router-link>
-      <router-link :to="{ name: 'AdditionallyPage' }">
-        <li>
-          <img class="icon" src="../../public/additionally-icon.png" alt="additionally icon" />
-          <span class="menu-text">ДОПОЛНИТЕЛЬНО</span>
-        </li>
-      </router-link>
-    </ul>
+    <transition name="fade">
+      <ul v-if="menuOpen" id="aside-menu">
+        <router-link :to="{ name: 'SetPage' }">
+          <li class="menu-item">
+            <img class="icon" src="../../public/sets-icon.png" alt="sets icon" />
+            <span class="menu-text">СЕТЫ</span>
+          </li>
+        </router-link>
+        <router-link :to="{ name: 'RollsPage' }">
+          <li class="menu-item">
+            <img class="icon" src="../../public/roll-icon.png" alt="rolls icon" />
+            <span class="menu-text">РОЛЛЫ</span>
+          </li>
+        </router-link>
+        <router-link :to="{ name: 'BackedRollsPage' }">
+          <li class="menu-item">
+            <img class="icon" src="../../public/baked-rolls-icon.png" alt="baked rolls icon" />
+            <span class="menu-text">ТЁПЛЫЕ РОЛЛЫ</span>
+          </li>
+        </router-link>
+        <router-link :to="{ name: 'SusiPage' }">
+          <li class="menu-item">
+            <img class="icon" src="../../public/susi-icon.png" alt="susi icon" />
+            <span class="menu-text">СУШИ</span>
+          </li>
+        </router-link>
+        <router-link :to="{ name: 'WokPage' }">
+          <li class="menu-item">
+            <img class="icon" src="../../public/wok-icon.png" alt="wok icon" />
+            <span class="menu-text">WOK</span>
+          </li>
+        </router-link>
+        <router-link :to="{ name: 'AdditionallyPage' }">
+          <li class="menu-item">
+            <img class="icon" src="../../public/additionally-icon.png" alt="additionally icon" />
+            <span class="menu-text">ПЛЮС</span>
+          </li>
+        </router-link>
+      </ul>
+    </transition>
   </aside>
 </template>
 
 <style scoped lang="scss">
+@import '@/assets/mixin.scss';
+
 aside {
+  display: flex;
+  flex-direction: column;
   min-width: 60px;
-  background-color: #ee575e;
-  border-end-end-radius: 20px;
   float: left;
   cursor: pointer;
   z-index: 1;
   position: sticky;
   top: 0;
 }
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease !important;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0 !important;
+}
 #aside-menu-open {
-  display: flex;
-  flex-direction: column;
+  background-color: #ee575e;
+  border-end-end-radius: 20px;
   width: 60px;
   height: 60px;
+  cursor: pointer;
+  transition: 0.5 ease;
+}
+.no-border-radius {
+  border-end-end-radius: 0 !important;
+  border-end-start-radius: 0 !important;
+}
+#button-container {
+  display: flex;
+  flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
-  cursor: pointer;
-  span {
-    font-weight: 600;
-    font-family: 'Noto Sans JP', sans-serif;
-    font-size: 16px;
+  transition: transform 0.3s ease;
+  @media (hover: hover) {
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+  &:active {
+    transform: scale(1);
+    transition: transform 0.1s ease;
+  }
+  @media (hover: none) {
+    &:active {
+      background: #ea676e;
+      border-end-end-radius: 20px;
+      border-end-start-radius: 20px;
+    }
   }
 }
 #line-button {
   display: flex;
   flex-direction: column;
   gap: 5px;
+  padding-top: 5px;
+}
+#button-name {
+  font-weight: 600;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 16px;
+  padding: 5px 0;
+}
+#aside-menu {
+  width: 60px;
+  transition: width 0.3s ease;
+  background-color: #ee575e;
+  border-end-end-radius: 20px;
+}
+.menu-item {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  border-end-end-radius: 20px;
+  overflow: hidden;
+  background-color: #ee575e;
 
-  img {
-    width: 24px;
+  transition: filter 0.3s ease;
+  @media (hover: hover) {
+    &:hover {
+      width: 250px;
+    }
+  }
+  @media (hover: none) {
+    &:active {
+      background: #ea676e;
+      border-end-end-radius: 20px;
+      border-end-start-radius: 20px;
+    }
   }
 }
-ul {
+.icon {
   width: 60px;
-  li {
-    width: 60px;
-    height: 60px;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    overflow: hidden;
-    background-color: #ee575e;
-    border-end-end-radius: 20px;
+  height: 60px;
+  flex-shrink: 0;
+  transition: filter 0.3s ease;
+  @media (hover: hover) {
+    &:hover {
+      transform: scale(1.05);
+    }
   }
-  li img {
-    width: 60px;
-    height: 60px;
-    flex-shrink: 0;
-  }
-  li:hover {
-    width: 250px;
+  &:active {
+    transform: scale(1);
+    transition: transform 0.1s ease;
   }
 }
 .menu-text {
   font-weight: 600;
-}
-.icon:hover {
-  animation-duration: 0.3s;
-  animation-name: icons;
-}
-@keyframes icons {
-  0% {
-  }
-
-  100% {
-    transform: scale(1.05);
-  }
-}
-.icon-button:hover {
-  border-end-end-radius: 20px;
-  transform: scale(1.05);
+  text-align: center;
 }
 </style>

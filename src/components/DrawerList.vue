@@ -3,7 +3,6 @@ import DrawerCardItem from './DrawerCardItem.vue'
 import { inject } from 'vue'
 
 const { cart, removeFromCart } = inject('cart')
-console.log('cart in drawerList', cart.value)
 </script>
 
 <template>
@@ -21,4 +20,10 @@ console.log('cart in drawerList', cart.value)
   </div>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+#cart-list {
+  max-height: 505px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+</style>
