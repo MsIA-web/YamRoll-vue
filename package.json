@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@formkit/auto-animate": "^0.8.2",
-    "axios": "^1.6.7",
+    "axios": "^1.7.2",
     "vue": "^3.3.11",
     "vue-router": "^4.2.5",
     "vue-yandex-maps": "^2.1.0",

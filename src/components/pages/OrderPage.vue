@@ -89,7 +89,7 @@ const addMark = () => {
       {},
       {
         iconLayout: 'default#image',
-        iconImageHref: '/public/mark-location.svg',
+        iconImageHref: '/mark-location.svg',
         iconImageSize: [40, 40],
         iconImageOffset: [-20, -25],
         draggable: true
